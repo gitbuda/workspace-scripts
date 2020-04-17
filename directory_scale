@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Show:
+#     * Number of files for each subdirectory.
+#     * Total size of files for each subdirectory.
+#     * Total number of files in all subdirectories.
+#     * Total size of all files in all subdirectories.
+# Based on
+# https://superuser.com/questions/474334/count-of-files-in-each-sub-directories.
+
+counter=0
+size=0
+while read -r dir; do
+    dir_count=$(find "${dir}" -type f | wc -l)
+    dir_size=$(du -s "${dir}" | awk -F " " '{print $1}')
+    printf "%-30.30s : %9s %12s\n" "${dir}" "${dir_count}" "$(( dir_size / 1024 )) MB"
+    counter=$(( counter + dir_count ))
+    size=$(( size + dir_size ))
+done <<< "$(find . -maxdepth 1 -mindepth 1 -type d)"
+# Why <<< is needed
+# https://stackoverflow.com/questions/16854280/a-variable-modified-inside-a-while-loop-is-not-remembered?
+printf "%30.30s : %9s %12s\n" "TOTAL" "${counter}" "$(( size / 1024 )) MB"
