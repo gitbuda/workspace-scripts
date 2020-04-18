@@ -1,0 +1,53 @@
+#!/bin/bash
+
+start_session () {
+    # NOTE: tmux has-session returns true if a given session name (as a whole)
+    # is a prefix of an active session name. In other words don't have something
+    # like xyz and xyz123 as session names. On the other hand, xyz1 and xyz2 is
+    # allowed.
+    session_name=$1
+    shift
+    root_directory=$1
+    shift
+    zero_window_name="system"
+    tmux has-session -t "${session_name}"
+    tmux_has_session_exit_status=$?
+    if [ $tmux_has_session_exit_status != 0 ]; then
+        echo "Initializing new session ${session_name} in ${root_directory} ..."
+        tmux new-session -s "${session_name}" -c "${root_directory}" -n "${zero_window_name}" -d
+        while [[ $# -gt 0 ]]; do
+            window_name=$1
+            shift
+            init_command=$1
+            shift
+            echo "Window name: ${window_name} Init command: ${init_command}"
+            tmux neww -n "${window_name}" -c "${root_directory}" -t "${session_name}"
+            if [[ "${init_command}" != "" ]]; then
+                tmux send-keys -t "${session_name}:${window_name}" "${init_command}" C-m
+            fi
+        done
+    else
+        echo "Session ${session_name} already exists."
+    fi
+}
+
+split_into_two_horizontally () {
+    session_name=$1
+    window_name=$2
+    init_command=$3
+    panes_no=$(tmux list-panes -t "${session_name}:${window_name}" | wc -l)
+    if (( panes_no <= 1 )); then
+        tmux split-window -h -t "${session_name}:${window_name}"
+        tmux send-keys -t "${session_name}:${window_name}.1" "${init_command}" C-m
+    fi
+}
+
+attach_session () {
+    session_name=$1
+    tmux attach -t "${session_name}"
+}
+
+kill_session () {
+    session_name=$1
+    tmux kill-session -t "${session_name}"
+}
