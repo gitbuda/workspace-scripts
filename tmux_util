@@ -44,7 +44,9 @@ split_into_two_horizontally () {
 
 attach_session () {
     session_name=$1
-    tmux attach -t "${session_name}"
+    if [[ "${WORKSPACE_DONT_ATTACH}" != "true" ]]; then
+        tmux attach -t "${session_name}"
+    fi
 }
 
 kill_session () {
