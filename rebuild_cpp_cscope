@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cpp_files_out_file="cpp_files.out"
+ack -f --cpp --ignore-dir=libs > ${cpp_files_out_file}
+cscope -Rb -i ${cpp_files_out_file}
