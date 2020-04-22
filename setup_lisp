@@ -1,0 +1,18 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Quicklisp package manager for Common Lisp.
+quicklisp_install_dir="$HOME/quicklisp"
+if [[ -v QUICKLISP_HOME ]]; then
+    quicklisp_install_dir="${QUICKLISP_HOME}"
+fi
+if [[ ! -f "${quicklisp_install_dir}/setup.lisp" ]]; then
+    wget -nv https://beta.quicklisp.org/quicklisp.lisp -O quicklisp.lisp || exit 1
+    echo \
+    "
+    (load \"${DIR}/quicklisp.lisp\")
+    (quicklisp-quickstart:install :path \"${quicklisp_install_dir}\")
+    " | sbcl --script || exit 1
+    rm -rf quicklisp.lisp || exit 1
+fi
