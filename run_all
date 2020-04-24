@@ -1,0 +1,40 @@
+#!/bin/bash -e
+
+# Run every script argument as a subprocess.
+
+# NOTE: Current implementation has some downsides. The following list gives
+# instructions how to use this script with specific software.
+#   * Docker: don't user -it and similar terminal arguments. A valid command
+#             to start a new docker contaner is `docker run --rm <image>`.
+#   * npm:    cd can't be used as a part of user command. Please use the
+#             --prefix argument to define npm working directory.
+
+pids=()
+
+function cleanup () {
+    # Kill all subprocesses and wait for each to finish.
+    pkill -P $$
+    for pid in "${pids[@]}"; do
+        wait "$pid"
+    done
+    exit 0
+}
+
+trap cleanup SIGINT SIGTERM
+
+# Go throughout all arguments and start subprocesses. Each argument is
+# threaded as a command.
+for user_command in "$@"; do
+    $user_command &
+    pid=$!
+    pids=( "${pids[@]}" "$pid" )
+done
+echo "Active subprocess PIDs are:"
+for pid in "${pids[@]}"; do
+    echo "  $pid"
+done
+
+# Infinite loop while SIGINT or SIGTERM are received.
+while true; do
+    sleep 1
+done
