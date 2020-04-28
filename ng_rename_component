@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Rename Angular component files.
+
+old_prefix="$1"
+new_prefix="$2"
+
+mv "${old_prefix}.component.html" "${new_prefix}.component.html"
+mv "${old_prefix}.component.scss" "${new_prefix}.component.scss"
+mv "${old_prefix}.component.spec.ts" "${new_prefix}.component.spec.ts"
+mv "${old_prefix}.component.ts" "${new_prefix}.component.ts"
+mv "${old_prefix}.component.sandbox.ts" "${new_prefix}.component.sandbox.tx"
+
+# TODO(gitbuda): Update symbols and paths.

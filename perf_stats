@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# `sudo perf list` to see all available events.
+binary=$1
+
+sudo perf stat -B -e instructions,cycles,cache-references,cache-misses,branches,branch-misses,bus-cycles,\
+L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,\
+LLC-loads,LLC-load-misses,LLC-stores,LLC-store-misses,LLC-prefetch-misses \
+"${binary}"
