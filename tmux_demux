@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Execute a given command within all windows of a given tmux session.
+#
+# USAGE: script "session_name" "command"
+
+session_name="$1"
+cmd="$2"
+# -F '#I' is print format (print only Integer number of a window).
+for window_no in $(tmux list-windows -t "$session_name" -F '#I'); do
+    tmux send-keys -t "$session_name:$window_no" "$cmd" C-m
+done
