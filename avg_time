@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -Eeuox pipefail
+
+# The script calculates average time of execution per a command.
+
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 \"command\" repeat_number"
+    exit 1
+fi
+
+cmd="$1"
+repeat_no="$2"
+sum=0
+
+for ((i = 0 ; i < repeat_no ; i++)); do
+    tmp_file="$i.timexx"
+    eval "(/usr/bin/time -f '%e' $cmd) &> $tmp_file"
+    execution_time=$(cat $tmp_file)
+    sum=$(echo "$sum+$execution_time" | bc -l)
+    rm ${tmp_file}
+done
+avg=$(echo "$sum / $repeat_no" | bc -l)
+echo "${avg}s"
