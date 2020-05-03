@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+function print_help () {
+    echo "Usage: $(basename -- "$0") (setup|list|gdb)"
+    exit 1
+}
+
+if [ "$#" -ne "1" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+    print_help
+fi
+
+case $1 in
+    setup)
+    ulimit -c unlimited
+    ;;
+    list)
+    coredumpctl list
+    ;;
+    gdb)
+    coredumpctl gdb
+    ;;
+esac
