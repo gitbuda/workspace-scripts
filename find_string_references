@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Search files content.
+ag "$1"
+# Search file names.
+find . -print | ag "$1"
+# Search symbolic links.
+find . -type l -ls | ag "$1"
