@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+deb_package_installed () {
+    if dpkg -s "$1" 2>/dev/null >/dev/null; then
+        echo 1
+    else
+        echo 0
+    fi
+}
