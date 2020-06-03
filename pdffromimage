@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+# NOTE: On ubuntu PDF policy inside /etc/ImageMagick-6/policy.xml is set to
+# none. The policy has to be set to `read|write`
+
+function print_help () {
+    echo "Usage: $(basename -- "$0") (file1.png [file2.jpg ...] | *.jpg)"
+    exit 1
+}
+
+if [ "$#" -lt "1" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+    print_help
+fi
+
+convert "$@" output.pdf
