@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+function print_help () {
+    echo "Usage: $0 SSH-PUBLIC-KEY USERNAME HOST"
+    exit 1
+}
+
+if [ $# -ne 3 ]; then
+    print_help
+fi
+
+ssh-copy-id -i "$1" "$2@$3"
+scp ~/.gitconfig "$2@$3:/home/$2"
+scp ~/.tmux.conf "$2@$3:/home/$2"
+scp ~/.bash_aliases "$2@$3:/home/$2"
