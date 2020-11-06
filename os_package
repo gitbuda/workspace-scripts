@@ -2,8 +2,8 @@
 
 deb_package_installed () {
     if dpkg -s "$1" 2>/dev/null >/dev/null; then
-        echo 1
+        return 0
     else
-        echo 0
+        return 1
     fi
 }
