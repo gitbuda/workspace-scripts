@@ -1,0 +1,17 @@
+#!/bin/bash -e
+
+deb_installed() {
+    if dpkg -s "$1" 2>/dev/null >/dev/null; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+bin_installed() {
+    if command -v "$1" 2>/dev/null >/dev/null; then
+        return 0
+    else
+        return 1
+    fi
+}
