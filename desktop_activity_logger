@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $# -ne 2 ]; then
+    echo "$0 output_path resolution_in_sec"
+    exit 1
+fi
+output_path="$1"
+resolution="$2"
+
+while true; do
+    utc_time=$(date -u +'%Y-%m-%d %H:%M:%S')
+    window_id=$(xdotool getactivewindow)
+    window_name=$(xdotool getwindowname "$window_id")
+    window_pid=$(xdotool getwindowpid "$window_id")
+    app_path=$(readlink "/proc/$window_pid/exe")
+    tmux_sessions=$(tmux list-sessions | sed -n '/(attached)/s/:.*//p' | tr '\n' ',' | sed 's/,$//')
+    json_data=$(jq -c -n \
+                    --arg time "$utc_time" \
+                    --arg app  "$app_path" \
+                    --arg name "$window_name" \
+                    --arg sess "$tmux_sessions" \
+                    '{time: $time, app_name: $app, window_name: $name, attached_tmux_sessions: $sess}')
+    echo "$json_data" | tee -a "$output_path" >/dev/null
+    sleep "$resolution"
+done
