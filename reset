@@ -1,0 +1,14 @@
+#!/bin/bash
+
+case $1 in
+    caps)
+        setxkbmap -option caps:swapescape
+    ;;
+    audio)
+        pulseaudio -k && sudo alsa force-reload
+    ;;
+    *)
+        echo "Unknown!"
+        exit 1
+    ;;
+esac
