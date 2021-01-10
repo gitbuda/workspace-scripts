@@ -3,9 +3,11 @@
 case $1 in
     caps)
         setxkbmap -option caps:swapescape
+        shift
     ;;
     audio)
         pulseaudio -k && sudo alsa force-reload
+        shift
     ;;
     *)
         echo "Unknown!"
