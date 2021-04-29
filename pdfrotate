@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+function print_help () {
+    echo "Usage: $(basename -- "$0") input_file.pdf output_file.pdf"
+    exit 1
+}
+
+if [ "$#" -ne "2" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+    print_help
+fi
+
+pdftk "$1" cat 1east output "$2"
