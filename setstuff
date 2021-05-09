@@ -9,6 +9,9 @@ case $1 in
         pulseaudio -k && sudo alsa force-reload
         shift
     ;;
+    repeat-key)
+        xset r on
+    ;;
     *)
         echo "Unknown!"
         exit 1
