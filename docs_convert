@@ -1,3 +1,27 @@
 #!/bin/bash -e
 
+help () {
+    echo "$0 --help | input_path output_path [source_file_type (e.g. djvu)]"
+    exit 1
+}
+
+
+if [ "$1" = "--help" ]; then
+    help
+fi
+
+if [ $# -ne 2 ] && [ $# -ne 3 ]; then
+    help
+fi
+
+file_type="default"
+if [ $# -eq 3 ] && [ "$3" = "djvu" ]; then
+    file_type="djvu"
+fi
+
+if [ "$file_type" = "djvu" ]; then
+    # TODO(gitbuda): Check for the right file extensions.
+    ddjvu -format=pdf -quality=85 -verbose "$1" "$2"
+fi
+
 ebook-convert "$1" "$2"
