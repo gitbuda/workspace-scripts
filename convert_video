@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+function print_help () {
+    echo "Usage: $(basename -- "$0") (mp4_2_mov|mov_2_mp4) input_file output_file"
+    exit 1
+}
+
+if [ $# -eq 0 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+    print_help
+fi
+
+case $1 in
+    mp4_2_mov)
+        ffmpeg -i "$2" -vcodec mjpeg -q:v 2 -acodec pcm_s16be -q:a 0 -f mov "$3"
+    ;;
+    mov_2_mp4)
+        ffmpeg -i "$2" -c:v libx264 -preset ultrafast -crf 0 "$3"
+    ;;
+    *)
+        print_help
+    ;;
+esac
