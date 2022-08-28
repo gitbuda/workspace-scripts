@@ -15,3 +15,11 @@ bin_installed() {
         return 1
     fi
 }
+
+brew_installed() {
+    if brew info "$1" 2>/dev/null >/dev/null; then
+        return 0
+    else
+        return 1
+    fi
+}
