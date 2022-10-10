@@ -17,7 +17,8 @@ bin_installed() {
 }
 
 brew_installed() {
-    if brew info "$1" 2>/dev/null >/dev/null; then
+    # brew info {{formula}}
+    if brew ls --versions "$1" 2>/dev/null >/dev/null; then
         return 0
     else
         return 1
