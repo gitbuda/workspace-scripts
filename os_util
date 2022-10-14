@@ -8,6 +8,14 @@ deb_installed() {
     fi
 }
 
+dnf_installed() {
+    if dnf list installed | grep "$1" 2>/dev/null >/dev/null; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 bin_installed() {
     if command -v "$1" 2>/dev/null >/dev/null; then
         return 0
