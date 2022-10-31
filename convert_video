@@ -18,6 +18,9 @@ case $1 in
     mov_2_mp4)
         ffmpeg -i "$2" -c:v libx264 -preset ultrafast -crf 0 "$3"
     ;;
+    mac_sc_mov_2_mp4)
+        ffmpeg -i "$2" -vcodec h264 -acodec mp2 "$3"
+    ;;
     *)
         print_help
     ;;
