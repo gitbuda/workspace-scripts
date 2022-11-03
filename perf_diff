@@ -1,0 +1,9 @@
+#!/bin/bash -x
+
+# echo -1 | sudo tee /proc/sys/kernel/perf_event_paranoid
+
+trap '' INT # ignore SIGINT
+(trap - INT; perf record $1)
+(trap - INT; perf record $1)
+trap - INT
+perf diff
