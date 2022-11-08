@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# OPTION: Format only changed files (all of the content within a file).
+pushd "$(git rev-parse --show-toplevel)"
+FILES_TO_FIX=$({ git diff --name-only ; git diff --name-only --staged ; } | sort | uniq | egrep "\.c$|\.cpp$|.cxx$|\.h$|\.hpp$|\.hxx$")
+for file in "${FILES_TO_FIX}"; do
+  clang-format -i -verbose ${file}
+done
+popd
+exit 0
+
+# OPTION: Format files with certain extension.
 ALL_FILES_TO_CHECK=$(find . -type f -regex ".*\.\(cpp\|hpp\|c\|h\)" -print | paste -sd " ")
 for file in ${ALL_FILES_TO_CHECK}; do
   clang-format-8 -i -verbose ${file}
@@ -14,3 +24,6 @@ else
   echo "Clang-format check ok!"
   exit 0
 fi
+exit 0
+
+# TODO OPTION: Format only lines that changed.
