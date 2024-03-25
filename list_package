@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# TODO(gitbuda): RPM -> rpm -ql {{package_name|file}}
+# TODO(gitbuda): DEB -> dpkg -c package_file.deb
