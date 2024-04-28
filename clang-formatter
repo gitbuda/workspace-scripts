@@ -2,7 +2,7 @@
 
 # OPTION: Format only changed files (all of the content within a file).
 pushd "$(git rev-parse --show-toplevel)"
-FILES_TO_FIX=$({ git diff --name-only ; git diff --name-only --staged ; } | sort | uniq | egrep "\.c$|\.cpp$|.cxx$|\.h$|\.hpp$|\.hxx$")
+FILES_TO_FIX=$({ git diff --name-only ; git diff --name-only --staged ; } | sort | uniq | egrep "\.c$|\.cpp$|.cxx$|\.h$|\.hpp$|\.hxx|\.cu$")
 for file in "${FILES_TO_FIX}"; do
   clang-format -i -verbose ${file}
 done
