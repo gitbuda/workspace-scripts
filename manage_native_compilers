@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# TODO(gitbuda): Incomplete cover everything at once.
+
+GCC_VERSION=11
+
+echo "STATE BEFORE"
+ls -alh /usr/bin | grep "gcc\|g++"
+
+ln -s -f /usr/bin/gcc-$GCC_VERSION /usr/bin/gcc
+ln -s -f /usr/bin/g++-$GCC_VERSION /usr/bin/g++
+ln -s -f /usr/bin/x86_64-linux-gnu-gcc-$GCC_VERSION /usr/bin/x86_64-linux-gnu-gcc
+ln -s -f /usr/bin/x86_64-linux-gnu-g++-$GCC_VERSION /usr/bin/x86_64-linux-gnu-g++
+
+echo "STATE AFTER"
+ls -alh /usr/bin | grep "gcc\|g++"
