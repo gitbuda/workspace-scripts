@@ -11,4 +11,5 @@ if [ "$#" -ne "2" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     print_help
 fi
 
-pdftk "$1" cat 1east output "$2"
+# pdftk "$1" cat 1east output "$2"
+pdftk "$1" cat 1west output "$2"
