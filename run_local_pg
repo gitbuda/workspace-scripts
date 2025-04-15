@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker volume create pgdata
+docker run --name postgres -e POSTGRES_PASSWORD=pass -p 5433:5432 -v pgdata:/var/lib/postgresql/data -d postgres
