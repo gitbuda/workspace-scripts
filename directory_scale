@@ -16,7 +16,7 @@ while read -r dir; do
     printf "%-30.30s : %9s %12s\n" "${dir}" "${dir_count}" "$(( dir_size / 1024 )) MB"
     counter=$(( counter + dir_count ))
     size=$(( size + dir_size ))
-done <<< "$(find . -maxdepth 1 -mindepth 1 -type d)"
+done <<< "$(find . -maxdepth 1 -mindepth 1 -type d | sort)"
 # Why <<< is needed
 # https://stackoverflow.com/questions/16854280/a-variable-modified-inside-a-while-loop-is-not-remembered?
 printf "%30.30s : %9s %12s\n" "TOTAL" "${counter}" "$(( size / 1024 )) MB"
